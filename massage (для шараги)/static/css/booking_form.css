@@ -1,0 +1,125 @@
+/* ========== Контейнер формы ========== */
+.booking-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  min-height: 80vh;
+  color: #ffffff;
+  font-family: 'SF Pro Display', sans-serif;
+}
+
+/* ========== Обёртка формы ========== */
+.booking-form-wrapper {
+  width: 100%;
+  max-width: 600px;
+}
+
+/* ========== Заголовок ========== */
+.booking-form-wrapper h2 {
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 20px;
+  text-transform: lowercase;
+  font-weight: 600;
+}
+
+/* ========== Форма ========== */
+form {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 30px;
+  border-radius: 50px;
+  backdrop-filter: blur(10px);
+  color: #ffffff;
+}
+
+/* ========== Метки ========== */
+form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 400;
+  font-size: 14px;
+  color: #ffffff;
+  text-transform: lowercase;
+}
+
+/* ========== Поля формы ========== */
+form input,
+form textarea {
+  width: 100%;
+  padding: 12px 20px;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  font-size: 16px;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+form textarea {
+  resize: none;
+  border-radius: 40px;
+}
+
+/* ========== Кнопка отправки ========== */
+.cta-btn {
+  width: 100%;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: lowercase;
+}
+
+.cta-btn:hover {
+  background: #ffffff;
+  color: #000000;
+}
+
+/* ========== Сообщения ========== */
+.messages {
+  margin-bottom: 20px;
+}
+
+.alert {
+  padding: 12px 15px;
+  border-radius: 999px;
+  margin-bottom: 10px;
+  font-weight: 500;
+  font-size: 14px;
+  text-transform: lowercase;
+}
+
+.alert.error {
+  background-color: #ff4d4d;
+  color: #ffffff;
+}
+
+.alert.success {
+  background-color: #1e8449;
+  color: #ffffff;
+}
+
+/* ========== Адаптация ========== */
+@media (max-width: 768px) {
+  .booking-form-wrapper h2 {
+    font-size: 20px;
+  }
+
+  form {
+    padding: 20px;
+  }
+
+  .cta-btn {
+    font-size: 14px;
+    padding: 12px;
+  }
+}

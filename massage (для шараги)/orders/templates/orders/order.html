@@ -1,0 +1,95 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/order.css' %}">
+<script src="{% static 'js/order.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+<div class="order-container">
+
+  <div class="order-form">
+    <h1 class="order-name">оформление заказа</h1>
+    <form method="post" id="order-form">
+      {% csrf_token %}
+      <input type="hidden" name="cart_json" id="cart_json" value='{{ cart_json|default:"{}" }}'>
+
+      <div id="step-1" class="step active">
+        <label for="id_full_name">{{ form.full_name.label }}</label>
+        <input
+          type="text"
+          name="full_name"
+          id="id_full_name"
+          required
+          value="{{ form.full_name.value|default:'' }}"
+          autocomplete="name"
+        >
+
+        <label for="id_email">{{ form.email.label }}</label>
+        <input
+          type="email"
+          name="email"
+          id="id_email"
+          required
+          value="{{ form.email.value|default:'' }}"
+          autocomplete="email"
+        >
+
+        <label for="id_address">{{ form.address.label }}</label>
+        <input
+          type="text"
+          name="address"
+          id="id_address"
+          required
+          value="{{ form.address.value|default:'' }}"
+          autocomplete="street-address"
+        >
+
+        <label for="id_city">{{ form.city.label }}</label>
+        <input
+          type="text"
+          name="city"
+          id="id_city"
+          required
+          value="{{ form.city.value|default:'' }}"
+          autocomplete="address-level2"
+        >
+
+        <div class="order-step-controls">
+          <button type="button" id="back-btn" disabled>следующий шаг</button>
+          <p class="order-step-text" id="step-text">шаг 1 / 2</p>
+          <button type="button" id="next-btn" disabled>следующий шаг</button>
+        </div>
+      </div>
+
+      <div id="step-2" class="step" style="display:none;">
+
+        <div class="price_count">
+          <span class="label">кол-во: {{ count }}</span>
+          <span class="label">сумма: {{ total }} ₽</span>
+        </div>
+        <p class="p_payment">выберите способ оплаты:</p>
+        <div class="payment-section">
+          <label class="option-btn" for="payment_cash">
+            <input type="radio" id="payment_cash" name="payment_method" value="cash" {% if form.payment_method.value == 'cash' or not form.payment_method.value %}checked{% endif %}>
+            <span class="option-status-indicator"></span>
+            наличные
+          </label>
+
+          <label class="option-btn" for="payment_card">
+            <input type="radio" id="payment_card" name="payment_method" value="card" {% if form.payment_method.value == 'card' %}checked{% endif %}>
+            <span class="option-status-indicator"></span>
+            карта (при получении)
+          </label>
+        </div>
+
+        <div class="step-2-buttons">
+          <button type="button" id="prev-btn">предыдущий шаг</button>
+          <button type="submit" name="confirm_order" value="1" id="confirm-btn" class="right-align-btn">оформить заказ</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

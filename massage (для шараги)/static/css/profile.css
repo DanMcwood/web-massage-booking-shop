@@ -1,0 +1,246 @@
+/* Сброс отступов и паддингов */
+.profile-card * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Контейнер профиля */
+.profile-card {
+  font-family: 'SF Pro Display', sans-serif;
+  display: flex;
+  justify-content: center;
+  padding-top: 20px; /* Отступ сверху */
+  padding-bottom: 80px;
+  min-height: calc(100vh - 96px); /* если фиксирован header - учитываем его высоту */
+}
+
+/* Заголовки в профиле */
+.profile-card h1 {
+  font-weight: 700;
+  font-size: 28px;
+  color: #ffffff;
+  margin-bottom: 40px;
+  text-transform: lowercase;
+}
+
+/* Общие стили текста, ссылок, плейсхолдеров, кнопок */
+.profile-card p,
+.profile-card a,
+.profile-card input::placeholder,
+.profile-card button {
+  font-weight: 600;
+  font-size: 14px;
+  color: #ffffff;
+  text-transform: lowercase;
+}
+
+/* Ссылки */
+.profile-card a {
+  text-decoration: none;
+  margin-top: 20px;
+  display: inline-block;
+  transition: color 0.3s;
+}
+
+.profile-card a:hover {
+  color: #D8D8D8;
+}
+
+/* Основной контейнер */
+.profile-card .container {
+  background: #252525;
+  border-radius: 31px;
+  width: 768px;
+  max-width: 100%;
+  min-height: 540px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Контейнер формы */
+.profile-card .form-container form {
+  background: #252525;
+  display: flex;
+  flex-direction: column;
+  padding: 0 50px;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Поля ввода */
+.profile-card input {
+  background: #3A3A3A;
+  border: none;
+  border-radius: 91px;
+  padding: 14px 20px;
+  margin: 10px 0 2px 0;
+  width: 100%;
+  color: #ffffff;
+  font-weight: 600;
+  text-transform: lowercase;
+}
+
+.profile-card input::placeholder {
+  color: #aaaaaa;
+}
+
+/* Кнопки */
+.profile-card button,
+.profile-card button.ghost {
+  font-family: 'SF Pro Display', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: white;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  border-radius: 999px;
+  padding: 14px 45px;
+  margin-top: 15px;
+  cursor: pointer;
+  user-select: none;
+  text-transform: lowercase;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.profile-card button:hover,
+.profile-card button.ghost:hover {
+  background: white;
+  color: black;
+}
+
+.profile-card button.ghost {
+  color: #D8D8D8;
+  padding: 10px 25px;
+  margin-top: 30px;
+}
+
+/* Позиционирование форм регистрации/авторизации для анимации */
+.profile-card .form-container {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transition: all .6s ease-in-out;
+}
+
+.profile-card .sign-in-container {
+  left: 0;
+  width: 50%;
+  z-index: 2;
+}
+
+.profile-card .sign-up-container {
+  left: 0;
+  width: 50%;
+  z-index: 1;
+  opacity: 0;
+}
+
+/* Оверлей для анимации */
+.profile-card .overlay-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  transition: transform .6s ease-in-out;
+  z-index: 100;
+}
+
+.profile-card .overlay {
+  background: #303030;
+  color: #ffffff;
+  position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
+  transform: translateY(0);
+  transition: transform .6s ease-in-out;
+}
+
+.profile-card .overlay-panel {
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 40px;
+  height: 100%;
+  width: 50%;
+  text-align: center;
+  transform: translateY(0);
+  transition: transform .6s ease-in-out;
+}
+
+.profile-card .overlay-left {
+  transform: translateY(-20%);
+}
+
+.profile-card .overlay-right {
+  right: 0;
+  transform: translateY(0);
+}
+
+/* Активация анимации при переключении */
+.profile-card .container.right-panel-active .sign-in-container {
+  transform: translateY(100%);
+}
+
+.profile-card .container.right-panel-active .overlay-container {
+  transform: translateX(-100%);
+}
+
+.profile-card .container.right-panel-active .sign-up-container {
+  transform: translateX(100%);
+  opacity: 1;
+  z-index: 5;
+}
+
+.profile-card .container.right-panel-active .overlay {
+  transform: translateX(50%);
+}
+
+.profile-card .container.right-panel-active .overlay-left {
+  transform: translateY(0);
+}
+
+.profile-card .container.right-panel-active .overlay-right {
+  transform: translateY(20%);
+}
+
+/* Всплывающее сообщение */
+.popup-message {
+  position: fixed;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 255, 255, 0.95);
+  color: #111;
+  padding: 16px 32px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  font-family: 'SF Pro Display', sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  animation: fadeOut 3s ease-out forwards;
+  animation-delay: 2s;
+  opacity: 1;
+}
+
+/* Анимация исчезновения */
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+    pointer-events: none;
+  }
+}

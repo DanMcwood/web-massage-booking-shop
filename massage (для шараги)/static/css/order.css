@@ -1,0 +1,252 @@
+/* ========== Базовые стили ========== */
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.order-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: #fff;
+  font-family: 'SF Pro Display', sans-serif;
+}
+
+.order-form {
+  width: 100%;
+  max-width: 600px;
+}
+
+.order-name {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* ========== Форма ========== */
+form {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  color: #fff;
+}
+
+form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+form input, form select, form textarea {
+  width: 100%;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* ========== Кнопки ========== */
+button[type="submit"],
+button[type="button"] {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background: #fff;
+  color: #000;
+}
+
+.order-step-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.order-step-text {
+  font-size: 16px;
+}
+
+/* ========== Шаг 2: Итог заказа и оплата ========== */
+.price_count {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.p_payment {
+  text-align: center;
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.payment-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.option-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  white-space: nowrap;
+}
+
+.option-btn:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.option-btn.active {
+  background: rgba(255,255,255,0.15);
+}
+
+.option-status-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #7B7B7B;
+}
+
+.option-btn.active .option-status-indicator {
+  background-color: #009146;
+}
+
+.payment-section input[type="radio"] {
+  display: none;
+}
+
+.step-2-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+/* ========== вторая страница ========== */
+
+.order-success-container {
+  max-width: 600px;
+  margin: 100px auto;
+  padding: 20px;
+  color: #fff;
+  font-family: 'SF Pro Display', sans-serif;
+  text-align: center;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 480px) {
+  .order-success-container {
+    margin: 50px 20px;
+    font-size: 16px;
+  }
+  
+  .order-success-container h1 {
+    font-size: 24px;
+  }
+  
+  .order-success-container p {
+    font-size: 16px;
+  }
+}
+
+/* ========== Медиаадаптация ========== */
+@media (max-width: 1024px) {
+  .order-container {
+    flex-direction: column;
+    padding: 20px 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .order-container {
+    padding: 15px;
+  }
+
+  form {
+    padding: 20px;
+  }
+
+  .order-name {
+    font-size: 20px;
+  }
+
+  button[type="submit"],
+  button[type="button"] {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+
+  .payment-section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .price_count {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .order-name {
+    font-size: 18px;
+  }
+
+  .option-btn {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+
+  .order-step-text {
+    font-size: 14px;
+  }
+
+  .step-2-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .price_count {
+    font-size: 14px;
+    gap: 5px;
+  }
+}
+

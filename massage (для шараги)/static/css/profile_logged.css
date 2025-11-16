@@ -1,0 +1,482 @@
+/* --- Общие стили для профиля --- */
+.profile-card.logged-in {
+  background: #252525;
+  border-radius: 31px;
+  width: 768px;
+  max-width: 95%;
+  max-height: 85vh;
+  margin: 20px auto 80px;
+  padding: 40px 50px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  font-family: 'SF Pro Display', sans-serif;
+  color: #fff;
+  text-transform: lowercase;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  word-break: break-word;
+  -webkit-font-smoothing: antialiased;
+}
+
+.profile-card.logged-in::-webkit-scrollbar {
+  width: 8px;
+}
+
+.profile-card.logged-in::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 4px;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+  gap: 15px;
+}
+
+.login-name {
+  font-weight: 700;
+  font-size: 30px;
+  max-width: 60%;
+  word-break: break-word;
+}
+
+.user-level {
+  font-weight: 600;
+  font-size: 18px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.user-level.bronze .level-name { color: #cd7f32; }
+.user-level.silver .level-name { color: #c0c0c0; }
+.user-level.gold .level-name { color: #ffd700; }
+.user-level.diamond .level-name { color: #b9f2ff; }
+
+.discount {
+  color: #d8d8d8;
+  font-weight: 400;
+}
+
+/* Кнопки - общий контейнер */
+.buttons-wrapper {
+  background: #252525;
+  border-radius: 31px;
+  padding: 15px 25px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
+}
+
+.button-row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Кнопки истории и действий */
+.btn-history,
+.btn-action {
+  background: rgba(255,255,255,0.15);
+  border: none;
+  border-radius: 31px;
+  padding: 14px 45px;
+  font-weight: 700;
+  font-size: 18px;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color .3s ease, color .3s ease;
+  text-transform: lowercase;
+  user-select: none;
+  white-space: nowrap;
+  min-width: 160px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-history:hover,
+.btn-action:hover {
+  background: white;
+  color: black;
+}
+
+/* Кнопка выхода */
+.logout-form {
+  display: inline;
+}
+
+.btn-logout {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+/* Скрытые вкладки */
+.tab-content {
+  max-height: calc(85vh - 150px);
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* Кнопка назад */
+.btn-back {
+  background: rgba(255,255,255,0.15);
+  border-radius: 31px;
+  font-weight: 700;
+  font-size: 18px;
+  height: 42px;
+  line-height: 42px;
+  padding: 0 45px;
+  color: #fff;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: background-color .3s ease, color .3s ease;
+  align-self: flex-start;
+  white-space: nowrap;
+  margin-top: 30px;
+  border: none;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.btn-back:hover {
+  background: white;
+  color: black;
+}
+
+/* Форма настроек */
+.settings-form {
+  max-width: 100%;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  box-sizing: border-box;
+}
+
+.settings-form form {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 18px;
+}
+
+.settings-form label {
+  width: 140px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 16px;
+  color: #fff;
+  text-transform: lowercase;
+  user-select: none;
+  margin-bottom: 6px;
+}
+
+.settings-form input {
+  flex-grow: 1;
+  border-radius: 91px;
+  border: none;
+  padding: 12px 20px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #fff;
+  background-color: #3A3A3A;
+  box-sizing: border-box;
+}
+
+.settings-form input::placeholder {
+  color: #aaa;
+}
+
+/* Кнопка сохранить */
+.btn-save {
+  background: rgba(255,255,255,0.15);
+  border-radius: 31px;
+  font-weight: 700;
+  font-size: 18px;
+  height: 42px;
+  line-height: 42px;
+  padding: 0 45px;
+  color: #fff;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: background-color .3s ease, color .3s ease;
+  align-self: flex-start;
+  white-space: nowrap;
+  margin-top: 30px;
+  border: none;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.btn-save:hover {
+  background: white;
+  color: black;
+}
+
+/* --- записи --- */
+
+.booking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 10px;
+  padding-top: 10px;
+}
+
+.booking-list::-webkit-scrollbar {
+  width: 8px;
+}
+.booking-list::-webkit-scrollbar-thumb {
+  background-color: #777;
+  border-radius: 4px;
+}
+
+.booking-item {
+  background: rgba(255,255,255,0.06);
+  border-radius: 20px;
+  padding: 20px 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: inset 0 0 10px rgba(255,255,255,0.03);
+}
+
+.booking-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  .booking-row {
+    flex-direction: column;
+    font-size: 14px;
+    gap: 4px;
+  }
+}
+
+/* --- покупки --- */
+
+.purchase-list {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 10px;
+  padding-top: 10px;
+}
+
+.purchase-list::-webkit-scrollbar {
+  width: 8px;
+}
+.purchase-list::-webkit-scrollbar-thumb {
+  background-color: #777;
+  border-radius: 4px;
+}
+
+.purchase-item {
+  background: rgba(255,255,255,0.06);
+  border-radius: 20px;
+  padding: 20px 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: inset 0 0 10px rgba(255,255,255,0.03);
+}
+
+.purchase-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.purchase-products {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.purchase-product-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  font-weight: 500;
+  color: #ccc;
+}
+
+.item-name {
+  flex: 2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.item-qty {
+  flex: 1;
+  text-align: center;
+}
+.item-total {
+  flex: 1;
+  text-align: right;
+}
+
+@media (max-width: 600px) {
+  .purchase-row, .purchase-product-row {
+    font-size: 14px;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .purchase-product-row {
+    flex-direction: row;
+  }
+
+  .item-name, .item-qty, .item-total {
+    flex: unset;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* --- Адаптив --- */
+@media (max-width: 850px) {
+  .profile-card.logged-in {
+    width: 95%;
+    padding: 30px 25px;
+    max-height: 90vh;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .login-name {
+    max-width: 100%;
+    font-size: 26px;
+  }
+
+  .user-level {
+    font-size: 16px;
+    gap: 6px;
+  }
+
+  .buttons-wrapper {
+    padding: 10px 20px;
+  }
+
+  .btn-history,
+  .btn-action {
+    min-width: 140px;
+    font-size: 16px;
+    padding: 12px 35px;
+  }
+
+  .settings-form {
+    padding: 20px 20px;
+  }
+
+  .settings-form label {
+    width: 110px;
+    font-size: 13px;
+  }
+
+  .settings-form input {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+
+  .btn-save {
+    font-size: 16px;
+    padding: 12px 35px;
+  }
+
+  .btn-back {
+    width: 160px;
+    font-size: 16px;
+    height: 38px;
+    padding: 0 15px;
+    margin-bottom: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .settings-form label {
+    width: 100%;
+    margin-bottom: 5px;
+    text-align: left;
+  }
+
+  .settings-form input {
+    width: 100%;
+  }
+
+  .button-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .btn-history,
+  .btn-action {
+    width: 100%;
+    min-width: unset;
+    padding: 12px 0;
+  }
+
+  .btn-back {
+    width: 100%;
+  }
+}
+
+/* Удобное скрытие */
+.hidden {
+  display: none !important;
+}

@@ -1,0 +1,178 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block title %}Услуги — SEI{% endblock %}
+
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'css/services.css' %}">
+  <script src="{% static 'js/services.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+
+<!-- Вторичное меню (вкладки) -->
+<div class="tabs-with-selected-bar">
+  <div class="bottom-tab-bar" id="bottomTabs">
+
+    {% for category in categories %}
+      <a href="#services-{{ category.slug }}" data-type="{{ category.slug }}"
+         {% if forloop.first %}class="active"{% endif %}>
+        <span>{{ category.name }}</span>
+      </a>
+    {% endfor %}
+  </div>
+
+  <div class="service-selected-bar" id="selectedServiceBar" style="display: none;">
+    <button class="back-arrow-btn" onclick="resetView()">
+      <span class="back-arrow-circle">
+        <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 6L9 12L15 18" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span id="selectedServiceName">услуга</span>
+    </button>
+  </div>
+
+</div>
+
+<!-- Обёртка с прокруткой -->
+<div class="cards-scroll-wrapper">
+  <div class="cards-grid-container">
+    {% for category in categories %}
+      {% for service in category.services.all %}
+        {% if category.type == 'default' %}
+          <!-- Карточка услуги категории default -->
+          <div class="card-service no-price"
+               data-type="{{ category.slug }}"
+               data-service-name="{{ service.name }}"
+               data-service-category="{{ category.slug }}"
+               data-service-id="{{ service.id }}"
+               onclick="toggleDetails(this)">
+            <div class="card-left">
+              <div class="card-left-inner">
+                <h3>{{ service.name }}</h3>
+                <p>{{ service.description|truncatechars:100 }}</p>
+                <div class="card-meta">
+                  {{ service.details_total_price|floatformat:0 }} ₽
+                  <br>
+                  {{ service.details.count }} видов
+                  <span class="arrow">→</span>
+                </div>
+              </div>
+            </div>
+            {% if service.photo %}
+              <div class="card-image" style="background-image: url('{{ service.photo.url }}');"></div>
+            {% else %}
+              <div class="card-image fallback-pattern"></div>
+            {% endif %}
+          </div>
+
+          <!-- Детали услуги, изначально скрыты -->
+          <div class="service-details" id="details-{{ service.id }}" style="display:none; padding-left: 20px; margin-bottom: 20px;">
+            <h4>Виды услуги</h4>
+            <ul>
+              {% for detail in service.details.all %}
+                <li>
+                  <strong>{{ detail.name }}</strong> — {{ detail.price|floatformat:0 }} ₽{% if detail.session_time %}, время: {{ detail.session_time }} мин{% endif %}
+                  <p>{{ detail.description }}</p>
+                </li>
+              {% empty %}
+                <li>Подуслуги не найдены.</li>
+              {% endfor %}
+            </ul>
+          </div>
+
+        {% elif category.type == 'with_price_and_sessions' %}
+          <!-- Здесь твой существующий код для с типом with_price_and_sessions -->
+          <a href="#" class="card-service price-sessions-photo"
+             data-type="{{ category.slug }}"
+             data-service-name="{{ service.name }}"
+             data-service-category="{{ category.slug }}"
+             onclick="showRelated(this)">
+            {% if service.photo %}
+              <div class="card-image" style="background-image: url('{{ service.photo.url }}');"></div>
+            {% else %}
+              <div class="card-image fallback-pattern"></div>
+            {% endif %}
+            <div class="card-content-right">
+              <h3>{{ service.name }}</h3>
+              <p>{{ service.description|truncatechars:100 }}</p>
+              <div class="card-bottom-info">
+                <div class="sessions-count white-text">
+                  {{ service.sessions_count }} сеанс{% if service.sessions_count != 1 %}ов{% endif %}
+                </div>
+                <div class="price">
+                  {{ service.price|floatformat:0 }} ₽
+                </div>
+              </div>
+            </div>
+          </a>
+
+        {% elif category.type == 'with_price_only' %}
+          <!-- Здесь твой существующий код для с типом with_price_only -->
+          <a href="#" class="card-service price-no-sessions"
+             data-type="{{ category.slug }}"
+             data-service-name="{{ service.name }}"
+             data-service-category="{{ category.slug }}"
+             onclick="showRelated(this)">
+            <div class="card-content-fullwidth">
+              <h3>{{ service.name }}</h3>
+              <p>{{ service.description|truncatechars:100 }}</p>
+              <div class="card-bottom-info">
+                {% if service.sessions_count %}
+                  <div class="sessions-count white-text">{{ service.sessions_count }} сеанс{% if service.sessions_count != 1 %}ов{% endif %}</div>
+                  <div class="price">{{ service.price|floatformat:0 }} ₽</div>
+                {% else %}
+                  <div class="sessions-count white-text">{{ service.price|floatformat:0 }} ₽</div>
+                  <div class="price"></div>
+                {% endif %}
+              </div>
+            </div>
+          </a>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+
+    <!-- Блок выбора способа получения -->
+    <div id="deliveryOptionsBlock" class="delivery-options-block" style="display: none;">
+      <div class="delivery-options-header">
+        <span class="delivery-options-title">способ получения</span>
+        <div class="selected-option-pill" id="selectedServiceNamePill">
+          <span id="selectedServiceNameText">название услуги</span>
+        </div>
+      </div>
+
+      <div class="delivery-options-choices">
+        <button class="option-btn active" data-method="delivery">
+          <span class="option-status-indicator gray"></span>
+          доставка
+        </button>
+        <button class="option-btn" data-method="certificate">
+          <span class="option-status-indicator green"></span>
+          онлайн-сертификат
+        </button>
+      </div>
+
+      <div class="delivery-options-content">
+        <div class="delivery-placeholder" id="deliveryInfo">доставка пока в разработке :(</div>
+        <form id="certificateForm" class="certificate-form" style="display: none;">
+          <label for="emailInput">Введите e-mail:</label>
+          <input type="email" id="emailInput" placeholder="example@mail.com" required />
+        </form>
+      </div>
+
+      <div class="delivery-options-footer">
+        <div class="step-indicator">шаг 1 / 5</div>
+        <button id="nextStepBtn" class="next-step-btn" disabled>
+          следующий шаг
+          <svg class="price-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 6L15 12L9 18" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

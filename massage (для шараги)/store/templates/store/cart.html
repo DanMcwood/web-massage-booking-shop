@@ -1,0 +1,89 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load store_extras %}
+
+{% block title %}Корзина — SEI{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+<script src="{% static 'js/cart.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+<div class="cart-container">
+  {% if cart_items %}
+
+  <form id="order-form" action="{% url 'order_create' %}" method="post">
+    {% csrf_token %}
+
+    <div class="cart-scroll-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th class="checkbox-col"><input type="checkbox" id="selectAllCheckbox"></th>
+            <th class="photo-col">фото</th>
+            <th class="name-col">название</th>
+            <th class="price-col">цена</th>
+            <th class="qty-col">количество</th>
+            <th class="sum-col">сумма</th>
+            <th class="actions-col">действия</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in cart_items %}
+          <tr class="cart-item" data-product-id="{{ item.product.id }}">
+            <td class="checkbox-cell">
+              <input type="checkbox"
+                     name="selected_ids"
+                     value="{{ item.product.id }}"
+                     class="select-item"
+                     checked>
+            </td>
+            <td class="image-cell">
+              <div class="product-thumb">
+                {% if item.product.image %}
+                  <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                {% else %}
+                  <img src="{% static 'media/default-pattern1.avif' %}" alt="no image">
+                {% endif %}
+              </div>
+            </td>
+            <td class="name-cell">
+              <span>{{ item.product.name }}</span>
+            </td>
+            <td class="price-cell">
+              <span class="item-price" data-price="{{ item.product.price }}">{{ item.product.price }} ₽</span>
+            </td>
+            <td class="qty-cell">
+              <div class="qty-controls">
+                <button type="button" class="qty-btn decrease" data-product-id="{{ item.product.id }}">−</button>
+                <span class="qty-value item-count" data-product-id="{{ item.product.id }}">{{ item.quantity }}</span>
+                <button type="button" class="qty-btn increase" data-product-id="{{ item.product.id }}">+</button>
+              </div>
+            </td>
+            <td class="subtotal-cell" data-product-id="{{ item.product.id }}">
+              <span class="item-subtotal">{{ item.subtotal }} ₽</span>
+            </td>
+            <td class="remove-cell">
+              <button class="remove-item-btn" type="button" data-product-id="{{ item.product.id }}">удалить</button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cart-footer">
+      <div class="total-text">
+        итого: <span id="cart-total">{{ total }}</span><span> ₽</span>
+      </div>
+      <button id="removeSelectedBtn" type="button">удалить выбранные</button>
+      <button id="orderSelectedBtn" name="confirm_order" type="submit" disabled>заказать выбранные</button>
+    </div>
+  </form>
+
+  {% else %}
+    <p class="empty-cart-text">ваша корзина пуста.</p>
+  {% endif %}
+</div>
+{% endblock %}

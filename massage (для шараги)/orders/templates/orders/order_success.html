@@ -1,0 +1,13 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/order.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="order-success-container">
+  <h1>Спасибо за заказ!</h1>
+  <p>Ваш заказ принят и будет обработан в ближайшее время.</p>
+</div>
+{% endblock %}

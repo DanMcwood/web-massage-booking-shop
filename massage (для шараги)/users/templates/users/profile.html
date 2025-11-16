@@ -1,0 +1,113 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block title %}личный кабинет — sei{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<script src="{% static 'js/profile.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+{% if messages %}
+  <div id="popup-message" class="popup-message">
+    {% for message in messages %}
+      <p>{{ message }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<div class="profile-card">
+  <div class="container" id="container">
+
+      <!-- Регистрация -->
+      <div class="form-container sign-up-container">
+          <form method="post" action="{% url 'profile' %}">
+              {% csrf_token %}
+              <h1>регистрация</h1>
+
+              <input 
+                type="text" 
+                name="{{ register_form.username.html_name }}" 
+                placeholder="имя" 
+                value="{{ register_form.username.value|default_if_none:'' }}" 
+                required 
+              />
+              {% if register_form.username.errors %}
+                <div class="error">{{ register_form.username.errors.0 }}</div>
+              {% endif %}
+
+              <input 
+                type="email" 
+                name="{{ register_form.email.html_name }}" 
+                placeholder="email" 
+                value="{{ register_form.email.value|default_if_none:'' }}" 
+                required 
+              />
+              {% if register_form.email.errors %}
+                <div class="error">{{ register_form.email.errors.0 }}</div>
+              {% endif %}
+
+              <input 
+                type="password" 
+                name="{{ register_form.password.html_name }}" 
+                placeholder="пароль" 
+                required 
+              />
+              {% if register_form.password.errors %}
+                <div class="error">{{ register_form.password.errors.0 }}</div>
+              {% endif %}
+
+              <button type="submit" name="register">зарегистрироваться</button>
+          </form>
+      </div>
+
+      <!-- Авторизация -->
+      <div class="form-container sign-in-container">
+          <form method="post" action="{% url 'profile' %}">
+              {% csrf_token %}
+              <h1>авторизация</h1>
+
+              <input 
+                type="text" 
+                name="{{ login_form.username.html_name }}" 
+                placeholder="email" 
+                value="{{ login_form.username.value|default_if_none:'' }}" 
+                required 
+              />
+              {% if login_form.username.errors %}
+                <div class="error">{{ login_form.username.errors.0 }}</div>
+              {% endif %}
+
+              <input 
+                type="password" 
+                name="{{ login_form.password.html_name }}" 
+                placeholder="пароль" 
+                required 
+              />
+              {% if login_form.password.errors %}
+                <div class="error">{{ login_form.password.errors.0 }}</div>
+              {% endif %}
+
+              <a href="{% url 'password_reset' %}">забыли пароль?</a>
+              <button type="submit" name="login">войти</button>
+          </form>
+      </div>
+
+      <div class="overlay-container">
+          <div class="overlay">
+              <div class="overlay-panel overlay-left">
+                  <h1>с возвращением!</h1>
+                  <p>чтобы продолжить, войдите в свой аккаунт</p>
+                  <button class="ghost" id="signIn">авторизация</button>
+              </div>
+              <div class="overlay-panel overlay-right">
+                  <h1>привет!</h1>
+                  <p>создайте аккаунт и начните путь с нами</p>
+                  <button class="ghost" id="signUp">регистрация</button>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+{% endblock %}

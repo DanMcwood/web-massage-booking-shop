@@ -1,0 +1,555 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.cards-scroll-wrapper {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-top: 80px;
+  box-sizing: border-box;
+  z-index: 1;
+}
+
+.cards-scroll-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.cards-scroll-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+  backdrop-filter: blur(16px);
+  border-radius: 999px;
+}
+
+.cards-scroll-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.3);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.cards-scroll-wrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.5);
+}
+
+.shop-container {
+  padding: 100px 40px 40px;
+  max-width: 1380px;
+  margin: 0 auto;
+  color: #fff;
+  height: calc(100vh - 96px);
+  box-sizing: border-box;
+}
+
+.shop-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.shop-container::-webkit-scrollbar-track {
+  background: #252525;
+  border-radius: 10px;
+}
+
+.shop-container::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  border: 2px solid #252525;
+}
+
+/* ========== Поиск с выравниванием отступов под категории ========== */
+.shop-search {
+  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 40px;
+  box-sizing: border-box;
+}
+
+.shop-search input {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 18px;
+  border-radius: 31px;
+  border: none;
+  background: #333;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+/* ========== Категории с адаптивным скроллом и отступами ========== */
+.categories-with-selected-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 136px;
+  position: sticky;
+  top: 100px;
+  z-index: 10;
+  background: transparent;
+  overflow-x: auto;
+  padding-right: 16px;
+  scrollbar-width: none;
+}
+
+/* Горизонтальный скролл на планшетах и мобилках */
+@media (max-width: 1200px) {
+  .categories-with-selected-bar {
+    margin-left: 20px;
+    margin-right: 20px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+  }
+  .categories-with-selected-bar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+  }
+}
+
+/* ========== Сетка продуктов и карточки ========== */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 32px;
+}
+
+.product-card {
+  background: #252525;
+  border-radius: 31px;
+  padding: 0 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 330px;
+  overflow: hidden;
+  color: white;
+  text-transform: lowercase;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow:
+    0 8px 20px rgba(255, 255, 255, 0.15),
+    0 0 30px rgba(255, 255, 255, 0.1);
+  z-index: 10;
+}
+
+.product-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 31px;
+  box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0);
+  transition: box-shadow 0.3s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.product-card:hover::after {
+  box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.2);
+}
+
+.product-images {
+  padding-top: 6px;
+  width: 224px;
+  height: 230px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-images img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 27px;
+  display: block;
+}
+
+.product-card h3 {
+  font-family: 'SF Pro Display', sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  margin: 12px 0 4px 0;
+  text-align: center;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90%;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.products-grid .product-card .description {
+  display: none;
+}
+
+.price-and-cart {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: auto;
+  padding-left: 10px;
+  box-sizing: border-box;
+}
+
+.price-and-cart .price {
+  font-size: 18px;
+  font-weight: 400;
+  color: white;
+  flex-shrink: 0;
+}
+
+.cart-control {
+  min-width: 120px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.add-to-cart-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 8px 16px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+  max-width: 120px;
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+
+.add-to-cart-btn:hover {
+  background: white;
+  color: black;
+}
+
+/* ========== Панель вкладок категорий ========== */
+.categories-tab-bar {
+  display: flex;
+  gap: 16px;
+  max-width: 100%;
+  padding: 0 16px;
+  height: 52px;
+  border-radius: 999px;
+  background: rgba(255 255 255 / 15%);
+  backdrop-filter: blur(16px);
+  align-items: center;
+  position: relative;
+  white-space: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.categories-tab-bar a {
+  font-family: 'SF Pro Display', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #A0A0A0;
+  text-decoration: none;
+  padding: 0 12px;
+  height: 43px;
+  line-height: 43px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  text-transform: lowercase;
+  flex-shrink: 0;
+}
+
+.categories-tab-bar a:not(.active):hover {
+  color: white;
+}
+
+.categories-tab-bar a.active {
+  color: white;
+}
+
+.categories-tab-bar a.active span {
+  position: relative;
+}
+
+.categories-tab-bar a.active span::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: white;
+  border-radius: 100px;
+  opacity: 0;
+  animation: underlineFadeIn 0.4s forwards;
+}
+
+/* ========== Пагинация ========== */
+.pagination {
+  padding-bottom: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  font-family: 'SF Pro Display', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: white;
+}
+
+.pagination a {
+  color: #a0a0a0;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255 255 255 / 0.1);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.pagination a:hover {
+  color: white;
+  background: rgba(255 255 255 / 0.2);
+}
+
+.pagination span {
+  color: white;
+  user-select: none;
+}
+
+/* ========== Счётчик + кнопки ========== */
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.counter-btn {
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  border-radius: 999px;
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.counter-btn:hover {
+  background: white;
+  color: black;
+}
+
+/* ========== Модальное окно товара ========== */
+#productDetailModal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#productDetailModal:not(.hidden) {
+  visibility: visible;
+  opacity: 1;
+}
+
+#productDetailModal .modal-content {
+  background: #252525;
+  border-radius: 31px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  max-width: 650px;
+  max-height: 75vh;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  color: white;
+  box-sizing: border-box;
+}
+
+#productDetailModal .modal-content .modal-image {
+  flex: 0 0 40%;
+  max-height: 75vh;
+  border-radius: 27px;
+  overflow: hidden;
+  margin-right: 20px;
+}
+
+#productDetailModal .modal-content .modal-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+#productDetailModal .modal-content .modal-info {
+  flex: 1 1 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-height: 75vh;
+  overflow: hidden;
+}
+
+#productDetailModal .modal-content .modal-info h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+#productDetailModal .modal-content .modal-info .description {
+  margin-bottom: 16px; 
+  color: #D8D8D8;
+  font-size: 16px;
+  line-height: 1.4;
+  overflow-y: auto;
+}
+
+#productDetailModal .modal-content .modal-info .price {
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 16px;
+}
+
+#productDetailModal .close-btn,
+#productDetailModal #modalCloseBtn {
+  display: none !important;
+}
+
+/* ========== Анимация underline ========== */
+@keyframes underlineFadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* ========== Медиаадаптация ========== */
+@media (max-width: 1200px) {
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .categories-with-selected-bar {
+    margin-left: 20px;
+  }
+
+  .shop-container {
+    padding: 80px 30px 30px;
+  }
+
+  .shop-search {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .categories-with-selected-bar {
+    margin-left: 20px;
+  }
+
+  .shop-container {
+    padding: 70px 20px 20px;
+  }
+
+  .shop-search {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .shop-search input {
+    font-size: 16px;
+  }
+
+  .product-images {
+    width: 180px;
+    height: 185px;
+  }
+
+  .product-card {
+    height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .categories-with-selected-bar {
+    margin-left: 0;
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .categories-with-selected-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .shop-container {
+    padding: 60px 15px 15px;
+  }
+
+  .shop-search {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+
+  .shop-search input {
+    font-size: 14px;
+  }
+
+  .product-images {
+    width: 150px;
+    height: 155px;
+  }
+
+  .product-card {
+    height: auto;
+    padding-bottom: 20px;
+  }
+}

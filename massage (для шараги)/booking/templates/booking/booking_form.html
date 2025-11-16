@@ -1,0 +1,37 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block title %}Запись на массаж — SEI{% endblock %}
+
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'css/booking_form.css' %}">
+  <script src="{% static 'js/booking_form.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="booking-container">
+  <div class="booking-form-wrapper">
+    {% if messages %}
+    <div class="messages">
+      {% for message in messages %}
+        <div class="alert {{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      {% for field in form %}
+        <p>
+          {{ field.label_tag }}
+          {{ field }}
+          {{ field.errors }}
+        </p>
+      {% endfor %}
+      <button type="submit" class="cta-btn">Отправить</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

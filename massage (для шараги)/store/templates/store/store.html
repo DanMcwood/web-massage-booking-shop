@@ -1,0 +1,96 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load store_extras %}
+
+{% block title %}Магазин — SEI{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/store.css' %}">
+<script src="{% static 'js/store.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+<div class="categories-with-selected-bar">
+  <div class="categories-tab-bar" id="productCategoriesMenu">
+    <a href="?category=all" class="{% if not active_category or active_category == 'all' %}active{% endif %}">
+      <span>Все</span>
+    </a>
+    {% for category in categories %}
+      <a href="?category={{ category.slug }}"
+         class="{% if category.slug == active_category %}active{% endif %}">
+        <span>{{ category.name }}</span>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+<div class="cards-scroll-wrapper">
+  <div class="shop-container">
+    <div class="shop-search">
+      <input type="text" id="shop-search-input" placeholder="Поиск товаров..." />
+    </div>
+    <div class="products-grid">
+      {% for product in products %}
+      <div class="product-card" data-name="{{ product.name|lower }}">
+        <div class="product-images">
+          {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+          {% else %}
+            <img src="{% static 'media/default-pattern1.avif' %}" alt="default image">
+          {% endif %}
+        </div>
+
+        <h3>{{ product.name }}</h3>
+
+        <p class="description">{{ product.description }}</p>
+      <div class="price-and-cart" data-product-id="{{ product.id }}">
+        <p class="price">{{ product.price|floatformat:0 }} ₽</p>
+        <div class="cart-control">
+          {% with count=cart_dict|get_item:product.id %}
+            {% if count and count|to_int > 0 %}
+              <div class="counter">
+                <button class="counter-btn minus">−</button>
+                <span class="count">{{ count }}</span>
+                <button class="counter-btn plus">+</button>
+              </div>
+            {% else %}
+              <button class="add-to-cart-btn" data-product-id="{{ product.id }}">в корзину</button>
+            {% endif %}
+          {% endwith %}
+        </div>
+      </div>
+
+      </div>
+      {% empty %}
+      <p>Товары не найдены.</p>
+      {% endfor %}
+    </div>
+      <!-- Пагинация — ВНИЗ ПОД КОНТЕНТОМ -->
+      <div class="pagination" style="text-align:center; margin: 40px 0;">
+        {% if page_obj.has_previous %}
+          <a href="?category={{ active_category|default:'all' }}&page={{ page_obj.previous_page_number }}">‹</a>
+        {% endif %}
+
+        <span>cтраница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+          <a href="?category={{ active_category|default:'all' }}&page={{ page_obj.next_page_number }}">›</a>
+        {% endif %}
+      </div>
+  </div>
+</div>
+<div id="productDetailModal" class="hidden">
+  <div class="modal-content">
+    <button class="modal-close-btn">×</button>
+    <div class="modal-image">
+      <img id="detailImage" src="" alt="product image" />
+    </div>
+    <div class="modal-info">
+      <h3 id="detailName"></h3>
+      <p class="description" id="detailDescription"></p>
+      <p class="price" id="detailPrice"></p>
+      <div class="price-and-cart" id="detailCartControl"></div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

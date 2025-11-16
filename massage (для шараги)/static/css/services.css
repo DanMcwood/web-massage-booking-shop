@@ -1,0 +1,587 @@
+/* ======= БАЗОВАЯ РАЗМЕТКА ======= */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: 'SF Pro Display', sans-serif;
+}
+
+/* ======= ПАНЕЛЬ ВКЛАДОК КАТЕГОРИЙ ======= */
+.tabs-with-selected-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 136px;
+  position: sticky;
+  top: 100px;
+  z-index: 10;
+  background: transparent;
+  padding-right: 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.bottom-tab-bar {
+  display: flex;
+  gap: 16px;
+  max-width: 100%;
+  padding: 0 16px;
+  height: 52px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(16px);
+  align-items: center;
+  white-space: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.bottom-tab-bar::-webkit-scrollbar,
+.tabs-with-selected-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.bottom-tab-bar a {
+  font-size: 18px;
+  font-weight: 700;
+  color: #A0A0A0;
+  text-decoration: none;
+  padding: 0 12px;
+  height: 43px;
+  line-height: 43px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  text-transform: lowercase;
+  flex-shrink: 0;
+}
+
+.bottom-tab-bar a:hover:not(.active) {
+  color: white;
+}
+
+.bottom-tab-bar a.active {
+  color: white;
+}
+
+.bottom-tab-bar a.active span {
+  position: relative;
+}
+
+.bottom-tab-bar a.active span::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: white;
+  border-radius: 100px;
+  opacity: 0;
+  animation: underlineFadeIn 0.4s forwards;
+}
+
+@keyframes underlineFadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Адаптация для планшетов и телефонов */
+@media (max-width: 1200px) {
+  .tabs-with-selected-bar {
+    margin: 0 20px;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Плашка с названием выбранной услуги */
+.service-selected-bar {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(16px);
+  border-radius: 999px;
+  color: white;
+  font-size: 18px;
+  padding: 0 20px 0 10px;
+  height: 52px;
+  font-family: 'SF Pro Display', sans-serif;
+  max-width: fit-content;
+  text-transform: lowercase;
+  font-weight: 700;
+}
+
+/* Кнопка назад с иконкой */
+.back-arrow-btn {
+  all: unset; 
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 48px;
+  cursor: pointer;
+}
+
+/* Круг для иконки стрелки назад */
+.back-arrow-circle {
+  width: 28px;
+  height: 28px;
+  background-color: #6E6E6E; 
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Иконка стрелки */
+.arrow-icon {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
+/* ======= ОБЛАСТЬ С ПРОКРУТКОЙ ======= */
+.cards-scroll-wrapper {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-top: 80px;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+.cards-scroll-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+.cards-scroll-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+  backdrop-filter: blur(16px);
+  border-radius: 999px;
+}
+.cards-scroll-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+.cards-scroll-wrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* ======= СЕТКА КАРТОЧЕК ======= */
+.cards-grid-container {
+  max-width: 1380px;
+  width: 100%;
+  margin: 130px auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* ---------- ОБЩИЕ НАСТРОЙКИ ДЛЯ ВСЕХ КАРТОЧЕК ---------- */
+.card-service {
+  width: 600px;
+  height: 317px;
+  display: flex;
+  background: rgba(25, 25, 25, 1);
+  border-radius: 31px;
+  overflow: hidden;
+  color: #fff;
+  text-decoration: none;
+  padding: 20px;
+  gap: 20px;
+  box-sizing: border-box;
+  position: relative;
+  backdrop-filter: blur(14px);
+}
+
+.card-service:hover {
+  transform: scale(1.01);
+}
+
+.card-service * {
+  box-sizing: border-box;
+}
+
+/* ---------- ОБЩЕЕ ДЛЯ ФОТО ---------- */
+.card-image {
+  width: 267px;
+  height: 100%;
+  border-radius: 20px;
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+.fallback-pattern {
+  background: repeating-linear-gradient(
+    45deg,
+    #2c2c2c,
+    #2c2c2c 10px,
+    #3b3b3b 10px,
+    #3b3b3b 20px
+  );
+}
+
+/* ----- Фото слева или справа ----- */
+.card-service.photo-left {
+  flex-direction: row;
+}
+.card-service.photo-right {
+  flex-direction: row-reverse;
+}
+
+/* ---------- КАРТОЧКА 1: no-price ---------- */
+.card-service.no-price {
+  align-items: stretch;
+}
+
+.card-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-left-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card-left h3 {
+  font-size: 24px;
+  margin-bottom: 4px;
+  text-transform: lowercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-left p {
+  font-size: 18px;
+  line-height: 1.4;
+  margin: 0;
+  text-transform: lowercase;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-meta {
+  background: #7A7A7A;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ---------- КАРТОЧКА 2: with_price_and_sessions ---------- */
+.card-service.price-sessions-photo {
+  align-items: stretch;
+}
+
+.card-content-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.card-content-right h3 {
+  font-size: 24px;
+  margin: 0;
+  text-transform: lowercase;
+}
+
+.card-content-right p {
+  font-size: 18px;
+  line-height: 1.4;
+  margin: 0;
+  text-transform: lowercase;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-bottom-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  color: #D8D8D8;
+  margin-top: auto;
+}
+
+.sessions-count.white-text {
+  color: white;
+  font-weight: 500;
+}
+
+.price {
+  color: #D8D8D8;
+}
+
+/* ---------- КАРТОЧКА 3: with_price_only ---------- */
+.card-service.price-no-sessions {
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.card-content-fullwidth {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  position: relative;
+  gap: 16px;
+}
+
+.card-content-fullwidth h3 {
+  font-size: 24px;
+  margin: 0;
+  text-transform: lowercase;
+}
+
+.card-content-fullwidth p {
+  font-size: 18px;
+  line-height: 1.4;
+  margin: 0;
+  text-transform: lowercase;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-content-fullwidth .card-bottom-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  color: #D8D8D8;
+  align-items: center;
+  margin-top: auto;
+}
+
+.card-content-fullwidth .sessions-count.white-text {
+  color: white;
+  font-weight: 500;
+}
+
+.card-content-fullwidth .price {
+  font-weight: 400;
+  color: #D8D8D8;
+}
+
+.card-content-fullwidth .card-meta-buy {
+  background: #7A7A7A;
+  border-radius: 999px;
+  padding: 8px 20px;
+  font-weight: 500;
+  font-size: 16px;
+  width: fit-content;
+  align-self: flex-end;
+  cursor: pointer;
+}
+
+/* ---------- ОБЁРТКА БЛОКА ---------- */
+.delivery-options-block {
+  width: 1380px;
+  height: 556px;
+  background: #D8D8D8;
+  border-radius: 31px;
+  margin: 0 auto;
+  padding: 40px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  font-family: 'SF Pro Display', sans-serif;
+  z-index: 30;
+  position: relative;
+}
+
+/* ---------- ВЕРХНИЙ БЛОК ---------- */
+.delivery-options-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.delivery-options-title {
+  font-size: 40px;
+  font-weight: 700;
+  color: white;
+  text-transform: lowercase;
+}
+
+.selected-option-pill {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(16px);
+  padding: 0 20px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 18px;
+  color: white;
+  text-transform: lowercase;
+}
+
+/* ---------- КНОПКИ ВЫБОРА ---------- */
+.delivery-options-choices {
+  display: flex;
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.option-btn {
+  font-size: 20px;
+  font-weight: 600;
+  border: 2px solid white;
+  background: transparent;
+  color: white;
+  border-radius: 999px;
+  padding: 12px 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.option-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.option-btn.active {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Индикаторы */
+.option-status-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.option-status-indicator.gray {
+  background-color: #7B7B7B;
+}
+
+.option-status-indicator.green {
+  background-color: #009146;
+}
+
+/* ---------- КОНТЕНТ ВАРИАНТА ---------- */
+.delivery-options-content {
+  margin-top: 40px;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delivery-placeholder {
+  font-size: 24px;
+  font-weight: 600;
+  color: white;
+}
+
+/* ---------- ФОРМА СЕРТИФИКАТА ---------- */
+.certificate-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 360px;
+}
+
+.certificate-form label {
+  font-size: 20px;
+  color: white;
+  font-weight: 500;
+}
+
+.certificate-form input {
+  padding: 12px 20px;
+  font-size: 18px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+/* ---------- НИЖНИЙ БЛОК ---------- */
+.delivery-options-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.step-indicator {
+  font-size: 30px;
+  font-weight: 700;
+  color: white;
+}
+
+.next-step-btn {
+  font-size: 24px;
+  font-weight: 600;
+  border: 2px solid white;
+  background: transparent;
+  color: white;
+  border-radius: 999px;
+  padding: 12px 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0.5;
+  cursor: not-allowed;
+  transition: all 0.3s ease;
+}
+
+.next-step-btn.active {
+  cursor: pointer;
+  opacity: 1;
+}
+
+.next-step-btn svg.price-arrow {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: white;
+  stroke-width: 2.5;
+}

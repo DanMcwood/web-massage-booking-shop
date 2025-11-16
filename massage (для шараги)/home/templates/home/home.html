@@ -1,0 +1,20 @@
+{% extends 'home/base.html' %}
+{% block title %}Главная — SEI{% endblock %}
+
+{% block content %}
+  <div class="bg-video-wrapper">
+    <video autoplay muted loop playsinline preload="auto">
+      <source src="/media/6629717-uhd_4096_2160_25fps.mp4" type="video/mp4" />
+      ваш браузер не поддерживает видео.
+    </video>
+  </div>
+
+  <main class="home-hero">
+    <h2>тишина внутри города. глубина внутри себя.</h2>
+    <p>
+      традиционные восточные практики и современные подходы объединены в одном пространстве.<br />
+      отдых — это не роскошь, а необходимость.
+    </p>
+    <a href="{% url 'booking' %}" class="cta-btn">записаться сейчас</a>
+  </main>
+{% endblock %}

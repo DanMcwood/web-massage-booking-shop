@@ -1,0 +1,124 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block title %}личный кабинет — sei{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/profile_logged.css' %}">
+<script src="{% static 'js/profile_logged.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+<div class="profile-card logged-in">
+  <div class="profile-header">
+    <div class="login-name">{{ request.user.username }}</div>
+    <div class="user-level {{ request.user.profile.level_name|default:'bronze' }}">
+      <span class="level-name">уровень: {{ request.user.profile.level_name|default:"bronze" }}</span>
+      <span class="discount">{{ request.user.profile.discount|default:"0" }}%</span>
+    </div>
+  </div>
+
+  <div id="buttons-wrapper" class="buttons-wrapper">
+    <div class="button-row history-buttons">
+      <button type="button" class="btn-history" id="btn-appointments">записи</button>
+      <button type="button" class="btn-history" id="btn-purchases">покупки</button>
+    </div>
+    <div class="button-row action-buttons">
+      <button type="button" id="btn-settings" class="btn-action">настройки</button>
+      <form method="post" action="{% url 'logout' %}" class="logout-form">
+        {% csrf_token %}
+        <button type="submit" class="btn-action btn-logout">выйти</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Вкладка: Записи -->
+  <section id="appointments-tab" class="tab-content hidden">
+    <button type="button" class="btn-back" id="btn-back-appointments">назад</button>
+    {% if bookings %}
+      <div class="booking-list">
+        {% for b in bookings %}
+          <div class="booking-item">
+            <div class="booking-row">
+              <span>дата: {{ b.date|date:"d.m.Y" }}</span>
+              <span>время: {{ b.time|time:"H:i" }}</span>
+              <span>{{ b.service_name }}</span>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>у вас пока нет записей</p>
+    {% endif %}
+  </section>
+
+  <!-- Вкладка: Покупки -->
+  <section id="purchases-tab" class="tab-content hidden">
+    <button type="button" class="btn-back" id="btn-back-purchases">назад</button>
+    {% if purchases %}
+      <div class="purchase-list">
+        {% for order in purchases %}
+          <div class="purchase-item">
+            <div class="purchase-row">
+              <span>{{ order.created_at|date:"d.m.Y H:i" }}</span>
+              <span>{{ order.payment_method|default:"cash" }}</span>
+              <span>доставлено</span>
+            </div>
+            {% if order.items.all %}
+              <ul class="purchase-products">
+                {% for item in order.items.all %}
+                  <li class="purchase-product-row">
+                    <span class="item-name">{{ item.product }}</span>
+                    <span class="item-qty">{{ item.quantity }} шт</span>
+                    <span class="item-total">
+                      {% widthratio item.price 1 item.quantity %} ₽
+                    </span>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>у вас пока нет покупок</p>
+    {% endif %}
+  </section>
+
+  <section id="settings-form" class="settings-form tab-content hidden">
+    <form method="POST" action="{% url 'profile_edit' %}">
+      {% csrf_token %}
+      <div class="wrapper">
+        <div class="form-row">
+          <label for="id_full_name">ФИО</label>
+          <input type="text" id="id_full_name" name="full_name" value="{{ request.user.profile.full_name|default:'' }}">
+        </div>
+        <div class="form-row">
+          <label for="id_email">почта</label>
+          <input type="email" id="id_email" name="email" value="{{ request.user.email }}" required>
+        </div>
+        <div class="form-row">
+          <label for="id_username">логин</label>
+          <input type="text" id="id_username" name="username" value="{{ request.user.username }}" required>
+        </div>
+        <div class="form-row">
+          <label for="id_address">адрес</label>
+          <input type="text" id="id_address" name="address" value="{{ request.user.profile.address|default:'' }}">
+        </div>
+        <div class="form-row">
+          <label for="id_city">город</label>
+          <input type="text" id="id_city" name="city" value="{{ request.user.profile.city|default:'' }}">
+        </div>
+        <div class="form-row">
+          <label for="id_password">пароль</label>
+          <input type="password" id="id_password" name="password" placeholder="Оставьте пустым, если не меняете">
+        </div>
+      </div>
+      <div class="settings-actions">
+        <button type="button" class="btn-back" id="btn-back-from-settings">назад</button>
+        <button type="submit" class="btn-save">сохранить</button>
+      </div>
+    </form>
+  </section>
+</div>
+{% endblock %}
